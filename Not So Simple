@@ -1,0 +1,207 @@
+// NeoPixel Ring simple sketch (c) 2013 Shae Erisson
+// released under the GPLv3 license to match the rest of the AdaFruit NeoPixel library
+// This code uses an 8X8 grid of neopixels.
+
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+  #include <avr/power.h>
+#endif
+
+#define PIN            2  // Draws power from pin 2
+
+#define NUMPIXELS      64 // Number of Neopixels attached to the Arduino
+
+// When we setup the NeoPixel library, we tell it how many pixels, and which pin to use to send signals.
+// Note that for older NeoPixel strips you might need to change the third parameter--see the strandtest
+// example for more information on possible values.
+Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+int delayval = 70; 
+int count = 0;
+int pix = 0;
+int a = 0;
+
+void setup() {
+  Serial.begin(9600); 
+  // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
+#if defined (__AVR_ATtiny85__)
+  if (F_CPU == 16000000) clock_prescale_set(clock_div_1);
+#endif
+  // End of trinket special code
+
+  pixels.begin(); // This initializes the NeoPixel library.
+}
+
+
+void loop() {
+  for (a = 0; a < 255; a++) {
+    W(a);
+    Triplet(a);
+    delay(1000);
+  }
+}
+
+
+void Triplet(int a){
+  for (int j = 0; j < NUMPIXELS; j++) {
+      pixels.setPixelColor(j - 1, pixels.Color(0,0,0));
+      pixels.setPixelColor(j, pixels.Color(255 - a,0,0));
+      pixels.setPixelColor(j + 1, pixels.Color(0,255 - a,0));
+      pixels.setPixelColor(j + 2, pixels.Color(0,0,255 - a));
+      pixels.show();
+      delay(delayval);
+    }
+    for (int k = NUMPIXELS; k >= -1; k--) {
+      pixels.setPixelColor(k + 1, pixels.Color(0,0,0));
+      pixels.setPixelColor(k, pixels.Color(255 - a,0,0));
+      pixels.setPixelColor(k - 1, pixels.Color(0,255 - a,0));
+      pixels.setPixelColor(k - 2, pixels.Color(0,0,255 - a));
+      pixels.show();
+      pixels.clear();
+      delay(delayval);  
+    }
+
+  
+}
+void W (int a) {
+  pixels.setPixelColor(9, pixels.Color(0,0,255 - a));
+  pixels.setPixelColor(14, pixels.Color(0,0,255 - a));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(17, pixels.Color(0,0,255 - a));
+  pixels.setPixelColor(22, pixels.Color(0,0,255 - a));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(25, pixels.Color(0,0,255 - a));
+  pixels.setPixelColor(30, pixels.Color(0,0,255 - a));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(33, pixels.Color(0,0,255 - a));
+  pixels.setPixelColor(35, pixels.Color(0,0,255 - a));
+  pixels.setPixelColor(36, pixels.Color(0,0,255 - a));
+  pixels.setPixelColor(38, pixels.Color(0,0,255 - a));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(42, pixels.Color(0,0,255 - a));
+  pixels.setPixelColor(45, pixels.Color(0,0,255 - a));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(50, pixels.Color(0,0,255 - a));
+  pixels.setPixelColor(53, pixels.Color(0,0,255 - a));
+  pixels.show();
+  delay(1000);
+
+  Frame(a);
+  
+  pixels.clear();
+}
+
+void Frame(int a) {
+  int temp = 0;
+  for (temp = 0; temp <= 7; temp++) {
+    pixels.setPixelColor(temp, pixels.Color(255 - a,0,0));
+    pixels.show();
+    delay(100);
+  }
+  pixels.setPixelColor(15, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(23, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(31, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(39, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(47, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(55, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(63, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  
+  for (temp = 62; temp >= 56; temp--) {
+    pixels.setPixelColor(temp, pixels.Color(255 - a,0,0));
+    pixels.show();
+    delay(100);
+  }
+  
+  pixels.setPixelColor(48, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(40, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(32, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(24, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(16, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(8, pixels.Color(255 - a,0,0));
+  pixels.show();
+  delay(100);
+
+  for (temp = 0; temp <= 7; temp++) {
+    pixels.setPixelColor(temp, pixels.Color(0,0,0));
+    pixels.show();
+    delay(100);
+  }
+  pixels.setPixelColor(15, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(23, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(31, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(39, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(47, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(55, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(63, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  
+  for (temp = 62; temp >= 56; temp--) {
+    pixels.setPixelColor(temp, pixels.Color(0,0,0));
+    pixels.show();
+    delay(100);
+  }
+  
+  pixels.setPixelColor(48, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(40, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(32, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(24, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(16, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  pixels.setPixelColor(8, pixels.Color(0,0,0));
+  pixels.show();
+  delay(100);
+  delay(1000);
+}
+
+
