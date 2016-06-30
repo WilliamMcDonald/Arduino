@@ -15,10 +15,10 @@ void loop() {
                 Serial.print("I received: ");
                 Serial.print(incomingByte, DEC);
                 Serial.print(" which is a(n): ");
-                if (incomingByte != 32) {
+                if (incomingByte > 32) {
                 Serial.println(char(incomingByte)); 
                 }
-                else {
+                else if (incomingByte == 32) {
                   Serial.println("space");
                 }
         }
